@@ -20,8 +20,8 @@ public class RoutingService {
 
 	public RoutingService() {
 		hopper = new GraphHopper().forServer();
-		hopper.setOSMFile("Dresden.osm.pbf");
-		hopper.setGraphHopperLocation("graphhopper");
+		hopper.setOSMFile("src/main/resources/Dresden.osm.pbf");
+		hopper.setGraphHopperLocation("src/main/resources/graphhopper");
 		hopper.setEncodingManager(new EncodingManager("car"));
 		hopper.importOrLoad();
 	}
