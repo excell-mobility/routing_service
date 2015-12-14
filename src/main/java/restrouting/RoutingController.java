@@ -21,7 +21,7 @@ public class RoutingController {
     
     @ExceptionHandler(value = Exception.class)
     public String inputParameterError() {
-      return "Your input parameters are invalid!";
+      return "Your input parameters for the routing service are invalid!";
     }
     
 }
