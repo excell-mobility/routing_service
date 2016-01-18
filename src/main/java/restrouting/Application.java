@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
+import routingapi.RoutingService;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -13,8 +14,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableSwagger2
 @ComponentScan(basePackageClasses = {
-	    RoutingController.class
+	    RoutingController.class,
+	    RoutingService.class
 	})
+
 public class Application {
 
     public static void main(String[] args) {
@@ -44,4 +47,5 @@ public class Application {
           "http://www.apache.org/licenses/LICENSE-2.0");
         return apiInfo;
     }
+
 }

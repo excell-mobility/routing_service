@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Locale;
 
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
@@ -11,23 +14,38 @@ import com.graphhopper.GraphHopper;
 import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.util.PointList;
 
+@Component
 public class RoutingService {
 
 	private GraphHopper hopper;
+	
+	private String osmFile;
+	private String ghLocation;
+	
 	private double distance;
 	private long timeInMs;
 	private PointList pointList;
 
-	public RoutingService() {
+	@Autowired
+	public RoutingService(
+			@Value("${routing.osmfile}") String osmFile,
+			@Value("${routing.ghlocation}") String ghLocation) {
+		
+		this.osmFile = osmFile;
+		this.ghLocation = ghLocation;
+		
 		hopper = new GraphHopper().forServer();
-		hopper.setOSMFile("src/main/resources/Dresden.osm.pbf");
-		hopper.setGraphHopperLocation("src/main/resources/graphhopper");
+		hopper.setOSMFile(this.getOsmFile());
+		hopper.setGraphHopperLocation(this.getGhLocation());
 		hopper.setEncodingManager(new EncodingManager("car"));
 		hopper.importOrLoad();
 	}
 
 	@SuppressWarnings("unchecked")
-	public JSONObject startRouting(double startLat, double startLon, double endLat,
+	public JSONObject startRouting(
+			double startLat, 
+			double startLon, 
+			double endLat,
 			double endLon) {
 
 		JSONObject obj = new JSONObject();
@@ -49,6 +67,22 @@ public class RoutingService {
 			obj.put("points", getPointListDoubles());
 		}
 		return obj;
+	}
+	
+	public String getGhLocation() {
+		return ghLocation;
+	}
+
+	public void setGhLocation(String ghLocation) {
+		this.ghLocation = ghLocation;
+	}
+
+	public String getOsmFile() {
+		return osmFile;
+	}
+
+	public void setOsmFile(String osmFile) {
+		this.osmFile = osmFile;
 	}
 
 	public double getDistance() {
