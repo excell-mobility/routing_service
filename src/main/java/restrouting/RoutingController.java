@@ -2,16 +2,16 @@ package restrouting;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiOperation;
 import routingapi.RoutingService;
 
-@Controller
+@RestController
 public class RoutingController {
 	
 	@Autowired
@@ -23,7 +23,7 @@ public class RoutingController {
     		@RequestParam(value="startLon", defaultValue="0.0") Double startLon,
     		@RequestParam(value="endLat", defaultValue="0.0") Double endLat,
     		@RequestParam(value="endLon", defaultValue="0.0") Double endLon) {
-        return routingService.startRouting(startLat, startLon, endLat, endLon);
+    	return routingService.startRouting(startLat, startLon, endLat, endLon);
     }
     
     @ExceptionHandler(value = Exception.class)

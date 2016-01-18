@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Locale;
 
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -17,6 +19,7 @@ import com.graphhopper.util.PointList;
 @Component
 public class RoutingService {
 
+	private final Logger log;
 	private GraphHopper hopper;
 	
 	private String osmFile;
@@ -34,6 +37,8 @@ public class RoutingService {
 		this.osmFile = osmFile;
 		this.ghLocation = ghLocation;
 		
+		log = LoggerFactory.getLogger(this.getClass());
+		
 		hopper = new GraphHopper().forServer();
 		hopper.setOSMFile(this.getOsmFile());
 		hopper.setGraphHopperLocation(this.getGhLocation());
@@ -48,6 +53,11 @@ public class RoutingService {
 			double endLat,
 			double endLon) {
 
+    	log.debug("IN - startLat: " + startLat);
+    	log.debug("IN - startLon: " + startLon);
+    	log.debug("IN - endLat: " + endLat);
+    	log.debug("IN - endLon: " + endLon);
+    	
 		JSONObject obj = new JSONObject();
 		GHRequest req = new GHRequest(startLat, startLon, endLat, endLon)
 				.setWeighting("fastest").setVehicle("car")
@@ -66,6 +76,9 @@ public class RoutingService {
 			obj.put("timeInMs", this.getTimeInMs());
 			obj.put("points", getPointListDoubles());
 		}
+		
+		log.debug("OUT - json: " + obj);
+		
 		return obj;
 	}
 	
