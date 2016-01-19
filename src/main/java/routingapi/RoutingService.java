@@ -3,7 +3,6 @@ package routingapi;
 import java.util.List;
 import java.util.Locale;
 
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,19 +24,14 @@ public class RoutingService {
 	private String osmFile;
 	private String ghLocation;
 	
-	private double distance;
-	private long timeInMs;
-	private PointList pointList;
-
 	@Autowired
 	public RoutingService(
 			@Value("${routing.osmfile}") String osmFile,
 			@Value("${routing.ghlocation}") String ghLocation) {
 		
+		log = LoggerFactory.getLogger(this.getClass());
 		this.osmFile = osmFile;
 		this.ghLocation = ghLocation;
-		
-		log = LoggerFactory.getLogger(this.getClass());
 		
 		hopper = new GraphHopper().forServer();
 		hopper.setOSMFile(this.getOsmFile());
@@ -46,40 +40,30 @@ public class RoutingService {
 		hopper.importOrLoad();
 	}
 
-	@SuppressWarnings("unchecked")
-	public JSONObject startRouting(
+	public RoutingResponse startRouting(
 			double startLat, 
 			double startLon, 
 			double endLat,
 			double endLon) {
-
-    	log.debug("IN - startLat: " + startLat);
+    	
+		log.debug("IN - startLat: " + startLat);
     	log.debug("IN - startLon: " + startLon);
     	log.debug("IN - endLat: " + endLat);
     	log.debug("IN - endLon: " + endLon);
     	
-		JSONObject obj = new JSONObject();
 		GHRequest req = new GHRequest(startLat, startLon, endLat, endLon)
 				.setWeighting("fastest").setVehicle("car")
 				.setLocale(Locale.GERMAN);
-		GHResponse rsp = hopper.route(req);
+		GHResponse rsp = hopper.route(req);;
+		
 		if (rsp.hasErrors()) {
-			this.setPointList(null);
-			this.setDistance(0.0);
-			this.setTimeInMs(0);
-			obj.put("Error", "No routing possible!");
-		} else {
-			this.setPointList(rsp.getPoints());
-			this.setDistance(rsp.getDistance());
-			this.setTimeInMs(rsp.getTime());
-			obj.put("distance", this.getDistance());
-			obj.put("timeInMs", this.getTimeInMs());
-			obj.put("points", getPointListDoubles());
+			log.error("No routing possible!");
+			return null;
 		}
 		
-		log.debug("OUT - json: " + obj);
-		
-		return obj;
+		return new RoutingResponse(rsp.getDistance(),
+				rsp.getTime(),
+				getPointListDoubles(rsp.getPoints()));
 	}
 	
 	public String getGhLocation() {
@@ -97,33 +81,8 @@ public class RoutingService {
 	public void setOsmFile(String osmFile) {
 		this.osmFile = osmFile;
 	}
-
-	public double getDistance() {
-		return distance;
-	}
-
-	public void setDistance(double distance) {
-		this.distance = distance;
-	}
-
-	public long getTimeInMs() {
-		return timeInMs;
-	}
-
-	public void setTimeInMs(long timeInMs) {
-		this.timeInMs = timeInMs;
-	}
-
-	public PointList getPointList() {
-		return pointList;
-	}
 	
-	private List<Double[]> getPointListDoubles() {
+	private List<Double[]> getPointListDoubles(PointList pointList) {
 		return pointList.toGeoJson();
 	}
-
-	public void setPointList(PointList pointList) {
-		this.pointList = pointList;
-	}
-
 }

@@ -2,17 +2,18 @@ package routing;
 
 import static org.junit.Assert.*;
 
-import org.json.simple.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import routingapi.RoutingResponse;
 import routingapi.RoutingService;
 
 public class TestRoutingService {
 	
 	@Autowired
 	private RoutingService routingService;
+	private RoutingResponse response;
 
 	@Before
 	public void initialize() {
@@ -24,14 +25,13 @@ public class TestRoutingService {
 	@Test
 	public void testRoutingService() {
 		
-		JSONObject startRouting = routingService.startRouting(51.048480, 13.729409, 51.049660, 13.74);
-		assertTrue(startRouting.containsKey("distance"));
-		assertTrue(startRouting.containsKey("points"));
-		assertTrue(startRouting.containsKey("timeInMs"));
+		response = routingService.startRouting(51.048480, 13.729409, 51.049660, 13.74);
+		assertTrue(response.getDistance() == 980.0225623571259);
+		assertTrue(response.getTimeInMs() == 154945);
+		assertTrue(response.getPointList().size() == 19);
 		
-		startRouting = routingService.startRouting(60.048480, 21.729409, 51.049660, 13.74);
-		assertTrue(startRouting.containsKey("Error"));
-		
+		response = routingService.startRouting(60.048480, 21.729409, 51.049660, 13.74);
+		assertTrue(response == null);	
 	}
 
 }
