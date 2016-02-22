@@ -1,4 +1,4 @@
-package routingapi;
+package restrouting.model;
 
 import java.util.List;
 

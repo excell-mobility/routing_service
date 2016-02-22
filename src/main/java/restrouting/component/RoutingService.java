@@ -1,4 +1,4 @@
-package routingapi;
+package restrouting.component;
 
 import java.util.List;
 import java.util.Locale;
@@ -14,6 +14,8 @@ import com.graphhopper.GHResponse;
 import com.graphhopper.GraphHopper;
 import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.util.PointList;
+
+import restrouting.model.RoutingResponse;
 
 @Component
 public class RoutingService {

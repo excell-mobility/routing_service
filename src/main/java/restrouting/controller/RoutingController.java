@@ -1,4 +1,4 @@
-package restrouting;
+package restrouting.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import routingapi.RoutingResponse;
-import routingapi.RoutingService;
+import restrouting.component.RoutingService;
+import restrouting.model.RoutingResponse;
 
 @RestController
 @Api(value="/v1/routing")

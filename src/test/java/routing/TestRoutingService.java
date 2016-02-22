@@ -6,8 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import routingapi.RoutingResponse;
-import routingapi.RoutingService;
+import restrouting.component.RoutingService;
+import restrouting.model.RoutingResponse;
 
 public class TestRoutingService {
 	
