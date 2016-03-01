@@ -18,7 +18,6 @@ public class ExCeGraphHopper extends GraphHopper
   
   Set<Integer> forbiddenEdges = new HashSet<Integer>();
   
-  
   public ExCeGraphHopper()
   {
     super();
