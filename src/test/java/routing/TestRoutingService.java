@@ -1,6 +1,6 @@
 package routing;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,8 +18,8 @@ public class TestRoutingService {
 	@Before
 	public void initialize() {
 		routingService = new RoutingService(
-				"src/test/resources/Dresden.osm.pbf",
-				"src/test/resources/graphhopper");
+				"src/main/resources/Dresden.osm.pbf",
+				"src/main/resources/graphhopper");
 	}
 	
 	@Test
@@ -33,5 +33,4 @@ public class TestRoutingService {
 		response = routingService.startRouting(60.048480, 21.729409, 51.049660, 13.74);
 		assertTrue(response == null);	
 	}
-
 }

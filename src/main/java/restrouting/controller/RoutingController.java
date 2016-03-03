@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import restrouting.component.RoutingService;
-import restrouting.model.GeoJsonResopnse;
+import restrouting.model.GeoJsonResponse;
 import restrouting.model.RoutingResponse;
 
 @RestController
@@ -38,11 +39,11 @@ public class RoutingController
   }
 
   @RequestMapping(value = "/v1/routingGeoJson", method = RequestMethod.GET)
-  @ApiOperation(value = "The fastest route in GeoJSON", response = GeoJsonResopnse.class, produces = "application/json")
-  public GeoJsonResopnse routingGeoJson(@ApiParam(defaultValue = "51.02929000") double startLat, @ApiParam(defaultValue = "13.70708000") double startLon, @ApiParam(defaultValue = "=51.07149000") double endLat, @ApiParam(defaultValue = "13.73086000") double endLon)
+  @ApiOperation(value = "The fastest route in GeoJSON", response = GeoJsonResponse.class, produces = "application/json")
+  public GeoJsonResponse routingGeoJson(@ApiParam(defaultValue = "51.02929000") double startLat, @ApiParam(defaultValue = "13.70708000") double startLon, @ApiParam(defaultValue = "=51.07149000") double endLat, @ApiParam(defaultValue = "13.73086000") double endLon)
   {
     RoutingResponse r = routingService.startRouting(startLat, startLon, endLat, endLon);
-    return new GeoJsonResopnse(r.getPointList());
+    return new GeoJsonResponse(r.getPointList());
   }
 
   @RequestMapping(value = "/v1/block", method = RequestMethod.GET)
