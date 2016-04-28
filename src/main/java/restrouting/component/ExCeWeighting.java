@@ -57,7 +57,7 @@ public class ExCeWeighting implements Weighting
     boolean penalizeEdge = edge.getBoolean(EdgeIteratorState.K_UNFAVORED_EDGE, reverse, false);
     if (penalizeEdge) time += heading_penalty;
 
-    return time / 2; // TODO Hack
+    return time * 2; // TODO Hack
   }
 
   @Override

@@ -6,8 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 
-import com.google.common.collect.Sets;
-
 import restrouting.component.RoutingService;
 import restrouting.controller.RoutingController;
 import springfox.documentation.service.ApiInfo;
@@ -33,7 +31,10 @@ public class Application
     return new Docket(DocumentationType.SWAGGER_2).groupName("excell-routing-api").select()
         // .apis(RequestHandlerSelectors.any())
         // .paths(PathSelectors.any())
-        .build().genericModelSubstitutes(ResponseEntity.class).protocols(Sets.newHashSet("https")).host("dbl43.beuth-hochschule.de/excell-routing-api").apiInfo(apiInfo());
+        .build().genericModelSubstitutes(ResponseEntity.class)
+        //.protocols(Sets.newHashSet("https"))
+        .host("dbl43.beuth-hochschule.de/excell-routing-api")
+        .apiInfo(apiInfo());
   }
 
   private ApiInfo apiInfo()

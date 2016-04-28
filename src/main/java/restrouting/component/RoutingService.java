@@ -37,7 +37,7 @@ public class RoutingService
     hopper.setGraphHopperLocation(this.getGhLocation());
     hopper.setEncodingManager(new EncodingManager("car"));
     hopper.setCHEnable(false);
-    hopper.importOrLoad();    
+    hopper.importOrLoad();
   }
 
   public RoutingResponse startRouting(double startLat, double startLon, double endLat, double endLon)
