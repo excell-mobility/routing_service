@@ -37,7 +37,7 @@ public class Application {
           	//.paths(PathSelectors.any())
           .build()
           .genericModelSubstitutes(ResponseEntity.class)
-          .protocols(Sets.newHashSet("https"))
+//          .protocols(Sets.newHashSet("https"))
           .host("dbl43.beuth-hochschule.de/excell-routing-api")
           .apiInfo(apiInfo())
           ;
