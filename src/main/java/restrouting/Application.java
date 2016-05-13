@@ -28,12 +28,12 @@ public class Application
   @Bean
   public Docket routingApi()
   {
-    return new Docket(DocumentationType.SWAGGER_2).groupName("excell-routing-api").select()
+    return new Docket(DocumentationType.SWAGGER_2).groupName("excell-routing-api-demo").select()
         // .apis(RequestHandlerSelectors.any())
         // .paths(PathSelectors.any())
         .build().genericModelSubstitutes(ResponseEntity.class)
         //.protocols(Sets.newHashSet("https"))
-        .host("dbl43.beuth-hochschule.de/excell-routing-api")
+        .host("dbl43.beuth-hochschule.de/excell-routing-api-demo")
         .apiInfo(apiInfo());
   }
 
