@@ -52,8 +52,8 @@ public class RoutingController
   @RequestMapping(value = "/v1/block", method = RequestMethod.GET)
   @ApiOperation(value = "Blocks edge in the near of [lat,lon]", response = GeoJsonResponse.class, produces = "application/json")
   public GeoJsonResponse block(
-		  @ApiParam(name = "blockLat", value = "Latitude for block coordinate", defaultValue = "51.0607071105") @RequestParam(defaultValue = "51.0607071105") double lat, 
-		  @ApiParam(name = "blockLon", value = "Longitude for block coordinate", defaultValue = "13.7316311527") @RequestParam(defaultValue = "13.7316311527") double lon)
+		  @ApiParam(name = "lat", value = "Latitude for block coordinate", defaultValue = "51.0607071105") @RequestParam(defaultValue = "51.0607071105") double lat, 
+		  @ApiParam(name = "lon", value = "Longitude for block coordinate", defaultValue = "13.7316311527") @RequestParam(defaultValue = "13.7316311527") double lon)
   {
 	  return new GeoJsonResponse(routingService.getHopper().block(lat, lon));
   }
@@ -61,10 +61,17 @@ public class RoutingController
   @RequestMapping(value = "/v1/unblock", method = RequestMethod.GET)
   @ApiOperation(value = "Unblocks edge in the near of [lat,lon]", response = GeoJsonResponse.class, produces = "application/json")
   public GeoJsonResponse unblock(
-		  @ApiParam(name = "unblockLat", value = "Latitude for unblock coordinate", defaultValue = "51.0607071105") @RequestParam(defaultValue = "51.0607071105") double lat, 
-		  @ApiParam(name = "unblockLat", value = "Longitude for unblock coordinate", defaultValue = "13.7316311527") @RequestParam(defaultValue = "13.7316311527") double lon)
+		  @ApiParam(name = "lat", value = "Latitude for unblock coordinate", defaultValue = "51.0607071105") @RequestParam(defaultValue = "51.0607071105") double lat, 
+		  @ApiParam(name = "lon", value = "Longitude for unblock coordinate", defaultValue = "13.7316311527") @RequestParam(defaultValue = "13.7316311527") double lon)
   {
 	  return new GeoJsonResponse(routingService.getHopper().unblock(lat, lon));
+  }
+
+  @RequestMapping(value = "/v1/unblockAll", method = RequestMethod.GET)
+  @ApiOperation(value = "Unblocks all edges")
+  public void unblockAll()
+  {
+	  routingService.getHopper().unblockAll();
   }
 
   @ExceptionHandler(value = Exception.class)

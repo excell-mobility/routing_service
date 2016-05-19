@@ -1,6 +1,5 @@
 package restrouting.component;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,7 +18,7 @@ public class ExCeGraphHopper extends GraphHopper
 {
 
   
-  Set<Integer> forbiddenEdges = new HashSet<Integer>();
+  private Set<Integer> forbiddenEdges = new HashSet<Integer>();
   
   public ExCeGraphHopper()
   {
@@ -47,6 +46,12 @@ public class ExCeGraphHopper extends GraphHopper
     PointList pointList = edge.fetchWayGeometry(2);
     return pointList.toGeoJson();
     //System.out.println("Unblock Edge: "+edge.getEdge()+" at ["+lat+" "+lon+"]");
+  }
+  
+  public void unblockAll()
+  {    
+    if (!forbiddenEdges.isEmpty())
+	  forbiddenEdges.clear();
   }
 
   
