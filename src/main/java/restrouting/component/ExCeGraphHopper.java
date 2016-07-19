@@ -19,6 +19,7 @@ public class ExCeGraphHopper extends GraphHopper
 
   
   private Set<Integer> forbiddenEdges = new HashSet<Integer>();
+  private Set<Integer> trafficJamEdges = new HashSet<Integer>();
   
   public ExCeGraphHopper()
   {
@@ -48,17 +49,42 @@ public class ExCeGraphHopper extends GraphHopper
     //System.out.println("Unblock Edge: "+edge.getEdge()+" at ["+lat+" "+lon+"]");
   }
   
+  public List<Double[]> createTrafficJam(double lat, double lon)
+  {
+    LocationIndex index = this.getLocationIndex();
+    QueryResult result = index.findClosest(lat,lon, EdgeFilter.ALL_EDGES);
+    EdgeIteratorState edge = result.getClosestEdge();
+    trafficJamEdges.add(edge.getEdge());
+    PointList pointList = edge.fetchWayGeometry(2);
+    return pointList.toGeoJson();
+    //System.out.println("Created Traffic Jam Edge: "+edge.getEdge()+" at ["+lat+" "+lon+"]");
+  }
+
+  
+  public List<Double[]> clearTrafficJam(double lat, double lon)
+  {    
+    LocationIndex index = this.getLocationIndex();
+    QueryResult result = index.findClosest(lat,lon, EdgeFilter.ALL_EDGES);
+    EdgeIteratorState edge = result.getClosestEdge();
+    trafficJamEdges.remove(edge.getEdge());
+    PointList pointList = edge.fetchWayGeometry(2);
+    return pointList.toGeoJson();
+    //System.out.println("Cleared Traffic Jam Edge: "+edge.getEdge()+" at ["+lat+" "+lon+"]");
+  }
+  
   public void unblockAll()
   {    
     if (!forbiddenEdges.isEmpty())
 	  forbiddenEdges.clear();
+    if (!trafficJamEdges.isEmpty())
+    	trafficJamEdges.clear();
   }
 
   
   @Override
   public Weighting createWeighting(WeightingMap weightingMap, FlagEncoder encoder)
   {
-    return new ExCeWeighting(encoder, forbiddenEdges);
+    return new ExCeWeighting(encoder, forbiddenEdges, trafficJamEdges);
     // else return super.createWeighting(weighting, encoder);
   }
 }

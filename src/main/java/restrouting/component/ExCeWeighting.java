@@ -19,12 +19,14 @@ public class ExCeWeighting implements Weighting
   private final double maxSpeed;
 
   Set<Integer> forbiddenEdges;
+  Set<Integer> trafficJamEdges;
 
-  public ExCeWeighting(FlagEncoder encoder, Set<Integer> forbiddenEdges)
+  public ExCeWeighting(FlagEncoder encoder, Set<Integer> forbiddenEdges, Set<Integer> trafficJamEdges)
   {
     if (!encoder.isRegistered()) throw new IllegalStateException("Make sure you add the FlagEncoder " + encoder + " to an EncodingManager before using it elsewhere");
 
     this.forbiddenEdges = forbiddenEdges;
+    this.trafficJamEdges = trafficJamEdges;
 
     this.flagEncoder = encoder;
     heading_penalty = DEFAULT_HEADING_PENALTY;
@@ -33,7 +35,7 @@ public class ExCeWeighting implements Weighting
 
   public ExCeWeighting(FlagEncoder encoder)
   {
-    this(encoder, new HashSet<Integer>());
+    this(encoder, new HashSet<Integer>(), new HashSet<Integer>());
   }
 
   @Override
@@ -49,7 +51,11 @@ public class ExCeWeighting implements Weighting
     if (forbiddenEdges.contains(edge.getEdge())) return Double.POSITIVE_INFINITY;
 
     double speed = reverse ? flagEncoder.getReverseSpeed(edge.getFlags()) : flagEncoder.getSpeed(edge.getFlags());
+    
     if (speed == 0) return Double.POSITIVE_INFINITY;
+    
+    if (trafficJamEdges.contains(edge.getEdge()))
+    	speed = 10;
 
     double time = edge.getDistance() / speed * SPEED_CONV;
 

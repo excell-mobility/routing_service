@@ -66,6 +66,24 @@ public class RoutingController
   {
 	  return new GeoJsonResponse(routingService.getHopper().unblock(lat, lon));
   }
+  
+  @RequestMapping(value = "/v1/createTrafficJam", method = RequestMethod.GET)
+  @ApiOperation(value = "Creates a traffic jam near of [lat,lon]", response = GeoJsonResponse.class, produces = "application/json")
+  public GeoJsonResponse createTrafficJam(
+		  @ApiParam(name = "lat", value = "Latitude for traffic jam coordinate", defaultValue = "51.0607071105") @RequestParam(defaultValue = "51.0607071105") double lat, 
+		  @ApiParam(name = "lon", value = "Longitude for traffic jam coordinate", defaultValue = "13.7316311527") @RequestParam(defaultValue = "13.7316311527") double lon)
+  {
+	  return new GeoJsonResponse(routingService.getHopper().block(lat, lon));
+  }
+
+  @RequestMapping(value = "/v1/clearTrafficJam", method = RequestMethod.GET)
+  @ApiOperation(value = "Clears a traffic jam near of [lat,lon]", response = GeoJsonResponse.class, produces = "application/json")
+  public GeoJsonResponse clearTrafficJam(
+		  @ApiParam(name = "lat", value = "Latitude for traffic jam coordinate", defaultValue = "51.0607071105") @RequestParam(defaultValue = "51.0607071105") double lat, 
+		  @ApiParam(name = "lon", value = "Longitude for traffic jam coordinate", defaultValue = "13.7316311527") @RequestParam(defaultValue = "13.7316311527") double lon)
+  {
+	  return new GeoJsonResponse(routingService.getHopper().unblock(lat, lon));
+  }
 
   @RequestMapping(value = "/v1/unblockAll", method = RequestMethod.GET)
   @ApiOperation(value = "Unblocks all edges")
