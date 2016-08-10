@@ -24,14 +24,14 @@ public class GenericFlagEncoderTest
 {
     private final GenericFlagEncoder encoder;
     private final EncodingManager encodingManager;
-    private final int motorVehicleInt;
+    private final int carVehicleInt;
 
     public GenericFlagEncoderTest()
     {
         encoder = new GenericFlagEncoder();
         encodingManager = new EncodingManager(encoder);
 
-        motorVehicleInt = encoder.getAccessType("motor_vehicle");
+        carVehicleInt = encoder.getAccessType("car_vehicle");
     }
 
     @Test
@@ -47,16 +47,16 @@ public class GenericFlagEncoderTest
         assertEquals("sand", encoder.getSurfaceAsString(edge));
         assertTrue(encoder.isTransportMode(edge, encoder.getTransportMode("tunnel")));
         assertFalse(encoder.isTransportMode(edge, encoder.getTransportMode("bridge")));
-        assertTrue(encoder.isForward(edge, motorVehicleInt));
-        assertTrue(encoder.isBackward(edge, motorVehicleInt));
+        assertTrue(encoder.isForward(edge, carVehicleInt));
+        assertTrue(encoder.isBackward(edge, carVehicleInt));
 
         osmWay = new OSMWay(0);
         osmWay.setTag("highway", "primary");
         osmWay.setTag("oneway", "yes");
         flags = encoder.handleWayTags(osmWay, 1, 0);
         edge = GHUtility.createMockedEdgeIteratorState(0, flags);
-        assertTrue(encoder.isForward(edge, motorVehicleInt));
-        assertFalse(encoder.isBackward(edge, motorVehicleInt));
+        assertTrue(encoder.isForward(edge, carVehicleInt));
+        assertFalse(encoder.isBackward(edge, carVehicleInt));
 
         osmWay = new OSMWay(0);
         osmWay.setTag("highway", "unknownX");
@@ -85,18 +85,21 @@ public class GenericFlagEncoderTest
         OSMWay osmWay = new OSMWay(0);
         osmWay.setTag("highway", "primary");
         osmWay.setTag("maxspeed", "10");
+        osmWay.setTag("speed", "10");
         long flags = encoder.handleWayTags(osmWay, 1, 0);
         EdgeIteratorState edge = GHUtility.createMockedEdgeIteratorState(0, flags);
-        assertEquals(10, encoder.getMaxspeed(edge, motorVehicleInt, false), .1);
-        assertEquals(10, encoder.getMaxspeed(edge, motorVehicleInt, true), .1);
+        assertEquals(10, encoder.getMaxspeed(edge, carVehicleInt, false), .1);
+        System.out.println(carVehicleInt);
+        System.out.println(encoder.getMaxspeed(edge, carVehicleInt, false));
+        assertEquals(10, encoder.getMaxspeed(edge, carVehicleInt, true), .1);
 
         osmWay = new OSMWay(0);
         osmWay.setTag("highway", "primary");
         osmWay.setTag("maxspeed:forward", "10");
         flags = encoder.handleWayTags(osmWay, 1, 0);
         edge = GHUtility.createMockedEdgeIteratorState(0, flags);
-        assertEquals(10, encoder.getMaxspeed(edge, motorVehicleInt, false), .1);
-        assertEquals(-1, encoder.getMaxspeed(edge, motorVehicleInt, true), .1);
+        assertEquals(10, encoder.getMaxspeed(edge, carVehicleInt, false), .1);
+        assertEquals(-1, encoder.getMaxspeed(edge, carVehicleInt, true), .1);
     }
 
     @Test
@@ -110,11 +113,11 @@ public class GenericFlagEncoderTest
         long flags = encoder.handleWayTags(osmWay, 1, 0);
         edge.setFlags(flags);
 
-        assertEquals(10, encoder.getMaxspeed(edge, motorVehicleInt, false), .1);
-        assertEquals(-1, encoder.getMaxspeed(edge, motorVehicleInt, true), .1);
+        assertEquals(10, encoder.getMaxspeed(edge, carVehicleInt, false), .1);
+        assertEquals(-1, encoder.getMaxspeed(edge, carVehicleInt, true), .1);
 
         edge = edge.detach(true);
-        assertEquals(-1, encoder.getMaxspeed(edge, motorVehicleInt, false), .1);
-        assertEquals(10, encoder.getMaxspeed(edge, motorVehicleInt, true), .1);
+        assertEquals(-1, encoder.getMaxspeed(edge, carVehicleInt, false), .1);
+        assertEquals(10, encoder.getMaxspeed(edge, carVehicleInt, true), .1);
     }
 }

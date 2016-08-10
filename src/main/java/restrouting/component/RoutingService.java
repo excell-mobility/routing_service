@@ -3,6 +3,7 @@ package restrouting.component;
 import java.util.List;
 import java.util.Locale;
 
+import com.graphhopper.routing.util.CarFlagEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.util.PointList;
 
 import restrouting.model.RoutingResponse;
+import restrouting.sensorflag.SensorFlagEncoder;
 
 @Component
 public class RoutingService {
@@ -38,7 +40,8 @@ public class RoutingService {
 		hopper = new GraphHopper().forServer();
 		hopper.setOSMFile(this.getOsmFile());
 		hopper.setGraphHopperLocation(this.getGhLocation());
-		hopper.setEncodingManager(new EncodingManager("car"));
+		SensorFlagEncoder sensorEncoder = new SensorFlagEncoder();
+		hopper.setEncodingManager(new EncodingManager(sensorEncoder));
 		hopper.importOrLoad();
 	}
 
@@ -54,7 +57,8 @@ public class RoutingService {
     	log.debug("IN - endLon: " + endLon);
     	
 		GHRequest req = new GHRequest(startLat, startLon, endLat, endLon)
-				.setWeighting("fastest").setVehicle("car")
+//				.setWeighting("fastest").setVehicle("car")
+				.setWeighting("fastest").setVehicle(new SensorFlagEncoder().toString())
 				.setLocale(Locale.GERMAN);
 		GHResponse rsp = hopper.route(req);;
 		

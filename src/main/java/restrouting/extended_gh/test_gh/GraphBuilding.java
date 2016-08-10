@@ -1,3 +1,5 @@
+
+
 package restrouting.extended_gh.test_gh;
 
 import com.graphhopper.*;
@@ -12,7 +14,7 @@ import static org.junit.Assert.assertTrue;
  * Created by Manal on 09.06.2016.
  */
 public class GraphBuilding {
-    protected static String location = "D:\\Arbeit\\workspace\\restroutinghopper\\src\\main\\resources\\graphhopper";
+    protected static String location = "./src/main/resources/graphhopperTest";
 
     //private static EncodingManager encodingManager = new EncodingManager("CAR");
     //private static GraphHopperStorage graph;
@@ -27,7 +29,7 @@ public class GraphBuilding {
 //        GraphHopperStorage g = new GraphHopperStorage(Collections.singletonList(weighting), new RAMDirectory(), encodingManager,
 //                false, new GraphExtension.NoOpExtension()).
 //                create(20);
-         g = new GraphBuilder(encodingManager).setLocation(location).setStore(true).create();
+        g = new GraphBuilder(encodingManager).setLocation(location).setStore(true).create();
         //Make a weighted edge between two nodes
 
 
@@ -69,15 +71,15 @@ public class GraphBuilding {
 
     public static void main(String[] args) {
         GraphHopperStorage graph = createSquareGraphInstance();
-        System.out.println("Nodes: "+graph.getNodes());
+        System.out.println("number of Nodes: "+graph.getNodes());
         System.out.println("Edges: "+graph.getAllEdges());
 
-        hopper = new GraphHopper().
-                setCHEnabled(true).
+        hopper = new GraphHopper();
+        hopper.setCHEnabled(true).
                 setEncodingManager(encodingManager).
                 setStoreOnFlush(true).
 //                importOrLoad();
-                setGraphHopperLocation(location);
+        setGraphHopperLocation(location);
 //                setOSMFile(testOsm3);
         hopper.getCHFactoryDecorator().setWeightingsAsStrings("fastest");
         hopper.setGraphHopperStorage(graph);
@@ -92,3 +94,4 @@ public class GraphBuilding {
 
     }
 }
+
