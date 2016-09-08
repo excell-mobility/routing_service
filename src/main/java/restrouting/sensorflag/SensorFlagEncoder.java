@@ -7,6 +7,7 @@ import com.graphhopper.reader.osm.conditional.DateRangeParser;
 import com.graphhopper.routing.util.AbstractFlagEncoder;
 import com.graphhopper.routing.util.EncodedDoubleValue;
 import com.graphhopper.routing.util.EncodedValue;
+import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.Helper;
 import com.graphhopper.util.PMap;
 import restrouting.model.SensorData;
@@ -19,11 +20,11 @@ import java.util.*;
 public class SensorFlagEncoder extends AbstractFlagEncoder {
     protected final Map<String, Integer> trackTypeSpeedMap = new HashMap<String, Integer>();
     protected final Set<String> badSurfaceSpeedMap = new HashSet<String>();
-    private EncodedDoubleValue sensorSpeedEncoder;
-    private EncodedValue junctionSpeedTurnEncoder;
+    private EncodedValue junctionSpeedTurnEncoder; //encoder for sensors on junction
+    private EncodedDoubleValue sensorSpeedEncoder;//encoder for other sensors
     private final Map<String, Integer> junctionTurnDirectionsMap = new HashMap<>();
     private final List<String> junctionTurnDirectionsList = new ArrayList<>();
-    private final Map<String, List<Integer>> junctionSpeedDirectionsMap = new HashMap<>();
+   // private final Map<String, List<Integer>> junctionSpeedDirectionsMap = new HashMap<>();
     private long sensorFlagBit;
     private double sensorSpeed;
     /**
@@ -141,8 +142,8 @@ public class SensorFlagEncoder extends AbstractFlagEncoder {
 //        junctionTurnDirectionsMap.put("turn:lanes", "through;right");
 
         //speed:lanes default
-        List<Integer> speedLanes = Arrays.asList(20, 50, 30);
-        junctionSpeedDirectionsMap.put("speed:lanes", speedLanes);
+//        List<Integer> speedLanes = Arrays.asList(20, 50, 30);
+//        junctionSpeedDirectionsMap.put("speed:lanes", speedLanes);
         conditionalTagsInspector = new ConditionalTagsInspector(DateRangeParser.createCalendar(), restrictions, restrictedValues, intendedValues);
     }
 
@@ -164,11 +165,11 @@ public class SensorFlagEncoder extends AbstractFlagEncoder {
         shift = super.defineWayBits(index, shift);
 
         //( String name, int shift, int bits, double factor, long defaultValue, int maxValue, boolean allowZero )
-        sensorSpeedEncoder = new EncodedDoubleValue("SensorSpeed", shift, speedBits, speedFactor, 0, maxPossibleSpeed, true);
+        sensorSpeedEncoder = new EncodedDoubleValue("SensorSpeed", shift, speedBits, speedFactor, 0, maxPossibleSpeed, true);//maxPossibleSpeed =140
         shift += sensorSpeedEncoder.getBits();
 
 
-        junctionSpeedTurnEncoder = new EncodedDoubleValue("speed:lanes", shift, speedBits, speedFactor, 0, junctionSpeedDirectionsMap.size(), true);
+//        junctionSpeedTurnEncoder = new EncodedDoubleValue("speed:lanes", shift, speedBits, speedFactor, 0, junctionSpeedDirectionsMap.size(), true);
         junctionSpeedTurnEncoder = new EncodedDoubleValue("turn:lanes", shift, speedBits, speedFactor, 0, junctionTurnDirectionsMap.size(), true);
         shift += junctionSpeedTurnEncoder.getBits();
 
@@ -177,6 +178,7 @@ public class SensorFlagEncoder extends AbstractFlagEncoder {
         shift += speedEncoder.getBits();
         return shift;
     }
+
     protected double getSensorSpeed(OSMWay way , SensorData sensor) {
         double speed = 0.0;
         //TODO with GPS coord.
@@ -188,8 +190,7 @@ public class SensorFlagEncoder extends AbstractFlagEncoder {
     }
 
 
-    protected double getSpeed( OSMWay way )
-    {
+    protected double getSpeed( OSMWay way ) {
         String highwayValue = way.getTag("highway");
         Integer speed = defaultSpeedMap.get(highwayValue);
         if (speed == null)
@@ -316,10 +317,31 @@ public class SensorFlagEncoder extends AbstractFlagEncoder {
             flags = setSpeed(flags, ferrySpeed);
             flags |= directionBitMask;
         }
+        String turnDirectionValue = way.getTag("surface");
+        Integer sValue = junctionTurnDirectionsMap.get(turnDirectionValue);
+        if (sValue == null)
+            sValue = 0;
+        flags = this.junctionSpeedTurnEncoder.setValue(flags, sValue);
+
         if (!isSensorFlagEmpty(flags))
             throw new IllegalStateException("SensorFlag bit has to be empty on creation");
 
         return flags;
+    }
+
+    public int getJunctionTurn( EdgeIteratorState edge ) {
+        return (int) junctionSpeedTurnEncoder.getValue(edge.getFlags());
+    }
+
+    public String getJunctionTurnDirectionsAsString( EdgeIteratorState edge )
+    {
+        int val = getJunctionTurn(edge);
+        for (Map.Entry<String, Integer> e : junctionTurnDirectionsMap.entrySet())
+        {
+            if (e.getValue() == val)
+                return e.getKey();
+        }
+        return null;
     }
 
     private boolean isSensorFlagEmpty( long flags )
