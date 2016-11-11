@@ -4,6 +4,8 @@ package restrouting.extended_gh.test_gh;
 
 import com.graphhopper.*;
 import com.graphhopper.routing.util.*;
+import com.graphhopper.routing.weighting.FastestWeighting;
+import com.graphhopper.routing.weighting.Weighting;
 import com.graphhopper.storage.*;
 
 import static org.junit.Assert.assertEquals;

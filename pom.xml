@@ -18,18 +18,19 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        
-        <dependency>
-  		  <groupId>com.graphhopper</groupId>
-  		  <artifactId>graphhopper</artifactId>
-  		  <version>0.7.0</version>
-  	    </dependency>
 
         <dependency>
             <groupId>com.graphhopper</groupId>
-            <artifactId>map-matching</artifactId>
-            <version>0.7.0</version>
-            <!-- or 0.8-SNAPSHOT for the unstable -->
+            <artifactId>graphhopper-parent</artifactId>
+            <version>0.8.2</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/com.graphhopper/graphhopper-map-matching-core -->
+        <dependency>
+            <groupId>com.graphhopper</groupId>
+            <artifactId>graphhopper-map-matching-core</artifactId>
+            <version>0.8.2</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.opengis/geoapi -->

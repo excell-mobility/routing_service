@@ -3,6 +3,7 @@ package restrouting.component;
 import java.util.List;
 import java.util.Locale;
 
+import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.routing.util.CarFlagEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,8 @@ public class RoutingService {
 		this.ghLocation = ghLocation;
 		
 		hopper = new GraphHopper().forServer();
-		hopper.setOSMFile(this.getOsmFile());
+		//hopper.forServer();
+		hopper.setDataReaderFile(this.getOsmFile());
 		hopper.setGraphHopperLocation(this.getGhLocation());
 		SensorFlagEncoder sensorEncoder = new SensorFlagEncoder();
 		hopper.setEncodingManager(new EncodingManager(sensorEncoder));

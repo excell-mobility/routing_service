@@ -110,7 +110,7 @@ public class GHUtility {
         }
 
         @Override
-        public boolean getBoolean(int i, boolean b, boolean b1) {
+        public boolean getBool(int i, boolean b) {
             return false;
         }
 

@@ -34,7 +34,7 @@ import com.graphhopper.util.PointList;
 public interface EdgeIteratorState extends com.graphhopper.util.EdgeIteratorState {
 
 
-    @Override
+//    @Override
     boolean getBoolean(int i, boolean b, boolean b1);
 
     /**

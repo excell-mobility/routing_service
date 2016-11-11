@@ -1,11 +1,12 @@
 package restrouting.extended_gh.mapmatching;
 
 import com.graphhopper.GraphHopper;
-
-//import com.graphhopper.matching.EdgeMatch;
-//import com.graphhopper.matching.MapMatching;
+import com.graphhopper.matching.EdgeMatch;
 import com.graphhopper.matching.LocationIndexMatch;
+import com.graphhopper.matching.MapMatching;
 import com.graphhopper.matching.MatchResult;
+import com.graphhopper.reader.osm.GraphHopperOSM;
+import com.graphhopper.routing.AlgorithmOptions;
 import com.graphhopper.routing.util.CarFlagEncoder;
 import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.storage.GraphHopperStorage;
@@ -45,6 +46,7 @@ public class VAMOS_MapMatching {
         //delete GH
         if(ghDirectory.exists() && ghDirectory.isDirectory()){
             try {
+
                 FileUtils.deleteDirectory(ghDirectory);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -52,18 +54,27 @@ public class VAMOS_MapMatching {
         }
 
         // import OpenStreetMap data
-        GraphHopper hopper = new GraphHopper();
-        hopper.setOSMFile(OSM);
+        GraphHopperOSM hopper = new GraphHopperOSM();
+        hopper.setDataReaderFile(OSM);
+
         hopper.setGraphHopperLocation(GHLOCATION);
         CarFlagEncoder encoder = new CarFlagEncoder();
         hopper.setEncodingManager(new EncodingManager(encoder));
         hopper.getCHFactoryDecorator().setEnabled(false);
         hopper.importOrLoad();
 
-        // create MapMatching object, can and should be shared across threads
+
+       // create MapMatching object, can and should be shared across threads
         GraphHopperStorage graph = hopper.getGraphHopperStorage();
         LocationIndexMatch locationIndex = new LocationIndexMatch(graph, (LocationIndexTree) hopper.getLocationIndex());
-        MapMatching mapMatching = new MapMatching(graph, locationIndex, encoder);
+
+        //for map matching core version 8.2
+        AlgorithmOptions opts = AlgorithmOptions.start().build();
+        MapMatching mapMatching = new MapMatching(hopper, opts);
+        int gpxAccuracy = 30;//40 meter accuracy
+        mapMatching.setMeasurementErrorSigma(gpxAccuracy);
+
+
 
         // do the actual matching, get the GPX entries from a file or via stream
 //        List<GPXEntry> inputGPXEntries = new GPXFile().doImport(VAMOS_GPX).getEntries();
@@ -93,11 +104,10 @@ public class VAMOS_MapMatching {
         }
 
         // accuracy works only with version 0.8-SNAPSHOT
-        int gpsAccuracy = 30;//40 meter accuracy
-        //mapMatching.setMeasurementErrorSigma(gpsAccuracy);
+
 //        mapMatching.setMaxVisitedNodes((int) Math.pow(10,10));
 //        mapMatching.setMaxVisitedNodes(2147483647);
-        restrouting.extended_gh.mapmatching.MatchResult mr = mapMatching.doWork(inputGPXEntries);
+        MatchResult mr = mapMatching.doWork(inputGPXEntries);
 
         // return GraphHopper edges with all associated GPX entries
         List<EdgeMatch> matches = mr.getEdgeMatches();
@@ -106,7 +116,7 @@ public class VAMOS_MapMatching {
         //write EdgeMatches in a file
         int ct = 0;
         BufferedWriter bwMatches = null;
-        String edgeMatches = RELATIVE_TARGET_DIRECTORY + "/vamosMatches.csv";
+        String edgeMatches = RELATIVE_TARGET_DIRECTORY + "/vamosMatchesWithoutDuplicate.csv";
 
         try {
             bw = new BufferedWriter(new FileWriter(edgeMatches));

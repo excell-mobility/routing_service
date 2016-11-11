@@ -18,7 +18,7 @@ public class SensorFlagEncoderTest {
 
     public SensorFlagEncoderTest() {
         hopper = new GraphHopper();
-        hopper.setOSMFile(osmFile);
+        hopper.setDataReaderFile(osmFile);
         hopper.setGraphHopperLocation(ghLocation);
         sensorEncoder = new SensorFlagEncoder();
         EncodingManager em = new EncodingManager(sensorEncoder);
