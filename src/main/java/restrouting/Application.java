@@ -38,6 +38,7 @@ public class Application {
           .build()
           .genericModelSubstitutes(ResponseEntity.class)
 //          .protocols(Sets.newHashSet("https"))
+//          .host("localhost:43444")
           .host("141.64.5.234/excell-routing-api")
           .apiInfo(apiInfo())
           ;

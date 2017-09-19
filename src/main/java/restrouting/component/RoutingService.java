@@ -15,6 +15,8 @@ import com.graphhopper.GraphHopper;
 import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.util.PointList;
 
+import exceptions.InputParameterErrorException;
+import exceptions.RoutingNotFoundException;
 import restrouting.model.RoutingResponse;
 
 @Component
@@ -46,12 +48,16 @@ public class RoutingService {
 			double startLat, 
 			double startLon, 
 			double endLat,
-			double endLon) {
+			double endLon) throws RoutingNotFoundException, InputParameterErrorException {
     	
 		log.debug("IN - startLat: " + startLat);
     	log.debug("IN - startLon: " + startLon);
     	log.debug("IN - endLat: " + endLat);
     	log.debug("IN - endLon: " + endLon);
+    	
+    	if(startLat == 0 || startLon == 0 || endLat == 0 || endLon == 0) {
+    		throw new InputParameterErrorException("Input parameters are not correct!");
+    	}
     	
 		GHRequest req = new GHRequest(startLat, startLon, endLat, endLon)
 				.setWeighting("fastest").setVehicle("car")
@@ -59,8 +65,7 @@ public class RoutingService {
 		GHResponse rsp = hopper.route(req);;
 		
 		if (rsp.hasErrors()) {
-			log.error("No routing possible!");
-			return null;
+			throw new RoutingNotFoundException("No routing possible!");
 		}
 		
 		return new RoutingResponse(rsp.getDistance(),

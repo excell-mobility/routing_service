@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import exceptions.InputParameterErrorException;
+import exceptions.RoutingNotFoundException;
 import restrouting.component.RoutingService;
 import restrouting.model.RoutingResponse;
 
@@ -23,7 +25,7 @@ public class TestRoutingService {
 	}
 	
 	@Test
-	public void testRoutingService() {
+	public void testRoutingService() throws RoutingNotFoundException, InputParameterErrorException {
 		
 		response = routingService.startRouting(51.048480, 13.729409, 51.049660, 13.74);
 		assertTrue(response.getDistance() == 980.0225623571259);

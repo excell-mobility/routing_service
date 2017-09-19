@@ -65,6 +65,11 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
+	    <dependency>
+    		<groupId>excell</groupId>
+    		<artifactId>excellapis</artifactId>
+    	  	<version>0.0.1-SNAPSHOT</version>
+    	</dependency>
 
     </dependencies>
 
