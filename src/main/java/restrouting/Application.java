@@ -31,7 +31,7 @@ public class Application {
     @Bean
     public Docket routingApi() { 
         return new Docket(DocumentationType.SWAGGER_2)
-//          .groupName("excell-routing-api")
+          .groupName("excell-routing-api")
           .select()
           	//.apis(RequestHandlerSelectors.any()) 
           	//.paths(PathSelectors.any())
