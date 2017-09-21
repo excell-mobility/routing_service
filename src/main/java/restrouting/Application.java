@@ -6,11 +6,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 
-import com.google.common.collect.Sets;
+//import com.google.common.collect.Sets;
 
 import restrouting.component.RoutingService;
 import restrouting.controller.RoutingController;
-import springfox.documentation.service.ApiInfo;
+//import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -31,20 +31,20 @@ public class Application {
     @Bean
     public Docket routingApi() { 
         return new Docket(DocumentationType.SWAGGER_2)
-          .groupName("excell-routing-api")
+          //.groupName("excell-routing-api")
           .select()
           	//.apis(RequestHandlerSelectors.any()) 
           	//.paths(PathSelectors.any())
           .build()
           .genericModelSubstitutes(ResponseEntity.class)
 //          .protocols(Sets.newHashSet("https"))
-//          .host("localhost:43444")
-          .host("141.64.5.234/excell-routing-api")
-          .apiInfo(apiInfo())
+//          .host("localhost:43434")
+          .host("141.64.5.234")
+//          .apiInfo(apiInfo())
           ;
     }
     
-    private ApiInfo apiInfo() {
+    /*private ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfo(
           "ExCELL Routing API",
           "This API provides an optimized routing for the ExCELL test area (Dresden).",
@@ -54,6 +54,6 @@ public class Application {
           "Apache 2",
           "http://www.apache.org/licenses/LICENSE-2.0");
         return apiInfo;
-    }
+    }*/
 
 }
