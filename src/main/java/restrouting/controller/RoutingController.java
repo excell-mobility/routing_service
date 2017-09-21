@@ -26,7 +26,7 @@ public class RoutingController {
 	@Autowired
 	RoutingService routingService;
 
-	@RequestMapping(value = "/excell-routing-api/v1/routing", method = RequestMethod.GET)
+	@RequestMapping(value = "/v1/routing", method = RequestMethod.GET)
     @ApiOperation(
     		value = "Find fastest route", 
     		response=RoutingResponse.class,
