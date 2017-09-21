@@ -20,7 +20,7 @@ import restrouting.component.RoutingService;
 import restrouting.model.RoutingResponse;
 
 @RestController
-@Api(value="routing")
+@Api(value="/v1/routing")
 public class RoutingController {
 	
 	@Autowired
