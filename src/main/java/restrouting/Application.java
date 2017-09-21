@@ -31,7 +31,7 @@ public class Application {
     @Bean
     public Docket routingApi() { 
         return new Docket(DocumentationType.SWAGGER_2)
-          .groupName("excell-routing-api")
+//          .groupName("excell-routing-api")
           .select()
           	//.apis(RequestHandlerSelectors.any()) 
           	//.paths(PathSelectors.any())
@@ -39,7 +39,7 @@ public class Application {
           .genericModelSubstitutes(ResponseEntity.class)
 //          .protocols(Sets.newHashSet("https"))
 //          .host("localhost:43434")
-          .host("141.64.5.234")
+          .host("141.64.5.234/excell-routing-api")
 //          .apiInfo(apiInfo())
           ;
     }
