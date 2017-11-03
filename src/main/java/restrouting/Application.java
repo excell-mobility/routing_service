@@ -8,8 +8,10 @@ import org.springframework.http.ResponseEntity;
 
 //import com.google.common.collect.Sets;
 
+
 import restrouting.component.RoutingService;
 import restrouting.controller.RoutingController;
+import springfox.documentation.service.ApiInfo;
 //import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -44,16 +46,16 @@ public class Application {
           ;
     }
     
-    /*private ApiInfo apiInfo() {
+    private ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfo(
           "ExCELL Routing API",
-          "This API provides an optimized routing for the ExCELL test area (Dresden).",
+          "This API provides an optimized routing for the ExCELL area.",
           "Version 1.0",
           "Use only for testing",
           "fkunde@beuth-hochschule",
           "Apache 2",
           "http://www.apache.org/licenses/LICENSE-2.0");
         return apiInfo;
-    }*/
+    }
 
 }
