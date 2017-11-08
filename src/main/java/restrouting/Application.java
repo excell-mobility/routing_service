@@ -52,7 +52,7 @@ public class Application {
 //          .protocols(Sets.newHashSet("https"))
 //          .host("localhost:43434")
           .host("141.64.5.234/excell-routing-api")
-//          .apiInfo(apiInfo())
+          .apiInfo(apiInfo())
           ;
     }
     
