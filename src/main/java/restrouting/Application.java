@@ -1,5 +1,7 @@
 package restrouting;
 
+import java.util.ArrayList;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -9,9 +11,17 @@ import org.springframework.http.ResponseEntity;
 //import com.google.common.collect.Sets;
 
 
+
+
+import com.google.common.base.Predicates;
+
 import restrouting.component.RoutingService;
 import restrouting.controller.RoutingController;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
+import springfox.documentation.service.VendorExtension;
 //import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -35,13 +45,13 @@ public class Application {
         return new Docket(DocumentationType.SWAGGER_2)
           .groupName("excell-routing-api")
           .select()
-          	//.apis(RequestHandlerSelectors.any()) 
-          	//.paths(PathSelectors.any())
+          .apis(RequestHandlerSelectors.any()) 
+          .paths(PathSelectors.regex("/v1/routing||/api/v1/routing"))
           .build()
           .genericModelSubstitutes(ResponseEntity.class)
 //          .protocols(Sets.newHashSet("https"))
-//          .host("localhost:43434")
-          .host("141.64.5.234/excell-routing-api")
+          .host("localhost:43434")
+//          .host("141.64.5.234/excell-routing-api")
 //          .apiInfo(apiInfo())
           ;
     }
@@ -52,9 +62,13 @@ public class Application {
           "This API provides an optimized routing for the ExCELL area.",
           "Version 1.0",
           "Use only for testing",
-          "fkunde@beuth-hochschule",
+          new Contact(
+        		  "Felix Kunde, Stephan Pieper",
+        		  "https://projekt.beuth-hochschule.de/magda/poeple",
+        		  "fkunde@beuth-hochschule"),
           "Apache 2",
-          "http://www.apache.org/licenses/LICENSE-2.0");
+          "http://www.apache.org/licenses/LICENSE-2.0",
+          new ArrayList<VendorExtension>());
         return apiInfo;
     }
 
