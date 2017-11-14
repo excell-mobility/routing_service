@@ -59,10 +59,10 @@ public class Application {
     private ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfo(
           "ExCELL Routing API",
-          "This API provides an optimized routing for the ExCELL area. "
-          + "The routing service expects two GPS coordinates, namely the start and the destination. "
-          + "Afterwards, a list of GPS coordinates is returned, forming the shortest route. "
-          + "To do this route calculation, the Dijkstra algorithm is applied.",
+          "Diese API stellt optimales Routing für die ExCELL Testregion zur Verfügung. "
+          + "Der Routing Service erwartet zwei GPS Koordinaten, nämlich Start und Ziel. "
+          + "Danach wird eine Liste von GPS Koordinaten zurückgegeben, die den kürzesten Weg repräsentiert. "
+          + "Zur Routenberechnung wird dabei der Dijkstra Algorithmus angewandt.",
           "Version 1.0",
           "Use only for testing",
           new Contact(
