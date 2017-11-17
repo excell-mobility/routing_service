@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
 import com.graphhopper.GraphHopper;
+import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.util.PointList;
 
@@ -37,8 +38,8 @@ public class RoutingService {
 		this.osmFile = osmFile;
 		this.ghLocation = ghLocation;
 		
-		hopper = new GraphHopper().forServer();
-		hopper.setOSMFile(this.getOsmFile());
+		hopper = new GraphHopperOSM().forServer();
+		hopper.setDataReaderFile(this.getOsmFile());
 		hopper.setGraphHopperLocation(this.getGhLocation());
 		hopper.setEncodingManager(new EncodingManager("car"));
 		hopper.importOrLoad();
@@ -60,7 +61,8 @@ public class RoutingService {
     	}
     	
 		GHRequest req = new GHRequest(startLat, startLon, endLat, endLon)
-				.setWeighting("fastest").setVehicle("car")
+				.setWeighting("fastest")
+				.setVehicle("car")
 				.setLocale(Locale.GERMAN);
 		GHResponse rsp = hopper.route(req);;
 		
@@ -68,9 +70,9 @@ public class RoutingService {
 			throw new RoutingNotFoundException("No routing possible!");
 		}
 
-		return new RoutingResponse(rsp.getDistance(),
-				rsp.getTime(),
-				getPointListDoubles(rsp.getPoints()));
+		return new RoutingResponse(rsp.getBest().getDistance(),
+				rsp.getBest().getTime(),
+				getPointListDoubles(rsp.getBest().getPoints()));
 //		return new RoutingResponse(rsp.getBest().getDistance(),
 //				rsp.getBest().getTime(),
 //				getPointListDoubles(rsp.getBest().getPoints()));
