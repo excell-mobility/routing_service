@@ -104,7 +104,7 @@ public class Application {
           "Version 1.0",
           "Use only for testing",
           new Contact(
-        		  "Felix Kunde, Stephan Pieper",
+        		  "Beuth Hochschule für Technik Berlin - Labor für Rechner- und Informationssysteme - MAGDa Gruppe",
         		  "https://projekt.beuth-hochschule.de/magda/poeple",
         		  "fkunde@beuth-hochschule"),
           "Apache 2",
