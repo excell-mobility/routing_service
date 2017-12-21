@@ -101,7 +101,7 @@ public class Application {
           + " Zur Routenberechnung wird dabei der Dijkstra Algorithmus angewandt.\n\n"
           + "This routing service requires a latitude and longitude input for two locations to calculate the shortest route in between."
           + " The routing is based on the Dijkstra algorithm.\n",
-          "Version 1.0",
+          "1.0",
           "Use only for testing",
           new Contact(
         		  "Beuth Hochschule für Technik Berlin - Labor für Rechner- und Informationssysteme - MAGDa Gruppe",
