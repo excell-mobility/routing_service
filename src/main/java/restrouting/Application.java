@@ -96,7 +96,7 @@ public class Application {
     private ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfo(
           "ExCELL Routing API",
-          "Der Routing Service erwartet Hoch- und Rechtswerte für die Start- und Zielkoordinaten."
+          "Der Routing Service erwartet Hoch- bzw. Rechtswerte für die Start- und Zielkoordinaten."
           + " Danach wird eine Liste von GPS Koordinaten zurückgegeben, die den kürzesten Weg repräsentiert."
           + " Zur Routenberechnung wird dabei der Dijkstra Algorithmus angewandt.\n\n"
           + "This routing service requires a latitude and longitude input for two locations to calculate the shortest route in between."
