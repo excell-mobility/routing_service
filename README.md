@@ -53,8 +53,8 @@ An online version of the routing API is available on the ExCELL Developer Portal
 
 ## Contact
 
-* spieper@beuth-hochschule.de
-* fkunde@beuth-hochschule.de
+* spieper [at] beuth-hochschule.de
+* fkunde [at] beuth-hochschule.de
 
 
 ## Special Thanks
