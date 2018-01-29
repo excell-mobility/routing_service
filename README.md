@@ -1,8 +1,9 @@
 # ExCELL Routing Service
 
-This routing service requires a latitude and longitude input for two locations to calculate the shortest route in between. The routing is based on the Dijkstra algorithm. The service acts as a wrapper around the well-known and powerful [OpenStreetMap](https://www.openstreetmap.org/) routing engine [Graphhopper](https://www.graphhopper.com/).
+This routing service requires a latitude and longitude input for two locations to calculate the shortest route in between. The routing is based on the Dijkstra algorithm. The service acts as a wrapper around the well-known and powerful [OpenStreetMap](https://www.openstreetmap.org/) routing engine [Graphhopper](https://www.graphhopper.com/). ExCELL routing service was mainly developed at Beuth Hochschule für Technik Berlin (BHS) by Stephan Pieper and Felix Kunde.
 
-## Run the service
+
+## Setup
 
 This web service comes as a [SpringBoot](https://projects.spring.io/spring-boot/) application so it's very easy to test it on your local machine. If you run the service from inside a Java IDE a Tomcat server will be launched and you can access the service through a browser via localhost:43434.
 
@@ -33,3 +34,42 @@ On a remote machine use it is necessary to specify the location of the OSM file 
 I you get an error that the main class is unknow user `-cp` with the path to the main class instead of the `-jar` operator.
 
 <pre>java -cp restrouting/Application.java routing-0.1.0.jar --server.port=44444 --routing.ghlocation=/path/to/routing/graph --routing.osmfile=/path/to/osm/file.osm.pbf</pre>
+
+
+## API Doc
+
+This projects provides a [Swagger](https://swagger.io/) interface to support the Open API initiative. The Java library [Springfox](http://springfox.github.io/springfox/) is used to automatically create the swagger UI configuration from annotations in the Java Spring code.
+
+An online version of the routing API is available on the ExCELL Developer Portal: [Try it out!](https://www.excell-mobility.de/developer/docs.php?service=routing_service). You need to sign up first in order to access the services from the portal. Every user receives a token that he/she has to use for authorization for each service.
+
+
+## Developers
+
+* Stephan Piper (BHS)
+* Felix Kunde (BHS)
+* Maximilian Allies (BHS)
+* Henning Jeske (Technische Universität Dresden)
+
+
+## Contact
+
+* spieper@beuth-hochschule.de
+* fkunde@beuth-hochschule.de
+
+
+## Special Thanks
+
+* Graphopper Team
+
+
+## Disclaimer
+
+THIS SOFTWARE IS PROVIDED "AS IS" AND "WITH ALL FAULTS." 
+BHS MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY KIND CONCERNING THE 
+QUALITY, SAFETY OR SUITABILITY OF THE SKRIPTS, EITHER EXPRESSED OR 
+IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED WARRANTIES OF 
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
+
+IN NO EVENT WILL BHS BE LIABLE FOR ANY INDIRECT, PUNITIVE, SPECIAL, 
+INCIDENTAL OR CONSEQUENTIAL DAMAGES HOWEVER THEY MAY ARISE AND EVEN IF 
+BHS HAS BEEN PREVIOUSLY ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
