@@ -45,7 +45,7 @@ An online version of the routing API is available on the ExCELL Developer Portal
 
 ## Developers
 
-* Stephan Piper (BHS)
+* Stephan Pieper (BHS)
 * Felix Kunde (BHS)
 * Maximilian Allies (BHS)
 * Henning Jeske (Technische Universität Dresden)
