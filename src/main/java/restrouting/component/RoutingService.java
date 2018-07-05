@@ -18,6 +18,7 @@ import com.graphhopper.util.PointList;
 
 import exceptions.InputParameterErrorException;
 import exceptions.RoutingNotFoundException;
+import rest.TravelTimesConnector;
 import restrouting.model.RoutingResponse;
 
 @Component
@@ -25,6 +26,7 @@ public class RoutingService {
 
 	private final Logger log;
 	private GraphHopper hopper;
+	private TravelTimesConnector travelTimesConnector;
 	
 	private String osmFile;
 	private String ghLocation;
@@ -38,11 +40,13 @@ public class RoutingService {
 		this.osmFile = osmFile;
 		this.ghLocation = ghLocation;
 		
-		hopper = new GraphHopperOSM().forServer();
+		hopper = new TravelTimeGraphHopper();
 		hopper.setDataReaderFile(this.getOsmFile());
 		hopper.setGraphHopperLocation(this.getGhLocation());
 		hopper.setEncodingManager(new EncodingManager("car"));
 		hopper.importOrLoad();
+		
+		this.travelTimesConnector = new TravelTimesConnector();
 	}
 
 	public RoutingResponse startRouting(
@@ -59,6 +63,9 @@ public class RoutingService {
     	if(startLat == 0 || startLon == 0 || endLat == 0 || endLon == 0) {
     		throw new InputParameterErrorException("Input parameters are not correct!");
     	}
+    	
+    	// update travel times with current values
+    	travelTimesConnector.updateTravelTimesFromWebservice();
     	
 		GHRequest req = new GHRequest(startLat, startLon, endLat, endLon)
 				.setWeighting("fastest")

@@ -22,7 +22,7 @@ import restrouting.model.RoutingResponse;
 @RestController
 @Api(value="/v1/routing")
 public class RoutingController {
-	
+
 	@Autowired
 	RoutingService routingService;
 
@@ -31,6 +31,7 @@ public class RoutingController {
     		value = "Find fastest route", 
     		response=RoutingResponse.class,
     		produces = "application/json")
+
     @ResponseBody
     public RoutingResponse routing(
     		@ApiParam(name="startLat", value="Latitude for start coordinate", defaultValue = "51.04") 
