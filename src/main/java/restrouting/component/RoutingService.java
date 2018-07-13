@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
 import com.graphhopper.GraphHopper;
-import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.util.PointList;
 
@@ -44,6 +43,7 @@ public class RoutingService {
 		hopper.setDataReaderFile(this.getOsmFile());
 		hopper.setGraphHopperLocation(this.getGhLocation());
 		hopper.setEncodingManager(new EncodingManager("car"));
+		hopper.setCHEnabled(false);
 		hopper.importOrLoad();
 		
 		this.travelTimesConnector = new TravelTimesConnector();

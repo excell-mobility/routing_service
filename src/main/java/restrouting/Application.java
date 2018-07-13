@@ -51,7 +51,7 @@ public class Application {
           .groupName("excell-routing-api")
           .select()
           .apis(RequestHandlerSelectors.any()) 
-          .paths(PathSelectors.regex("/v1/routing||/api/v1/routing"))
+          .paths(PathSelectors.regex("/v1/routing"))
           .build()
           .genericModelSubstitutes(ResponseEntity.class)
           .protocols(Sets.newHashSet("https"))
