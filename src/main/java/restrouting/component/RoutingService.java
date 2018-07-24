@@ -29,6 +29,9 @@ public class RoutingService {
 	@Autowired
 	private TravelTimesConnector travelTimesConnector;
 	
+	@Value("${routing.fetchTravelTimes}")
+	private boolean fetchTravelTimes;
+	
 	private String osmFile;
 	private String ghLocation;
 	
@@ -45,10 +48,13 @@ public class RoutingService {
 		hopper.setDataReaderFile(this.getOsmFile());
 		hopper.setGraphHopperLocation(this.getGhLocation());
 		hopper.setEncodingManager(new EncodingManager("car"));
-		hopper.setCHEnabled(false);
-		hopper.importOrLoad();
 		
-		this.travelTimesConnector = new TravelTimesConnector();
+		if (fetchTravelTimes) {
+			hopper.setCHEnabled(false);
+			this.travelTimesConnector = new TravelTimesConnector();
+		}
+		
+		hopper.importOrLoad();
 	}
 
 	public RoutingResponse startRouting(
@@ -67,7 +73,9 @@ public class RoutingService {
     	}
     	
     	// update travel times with current values
-    	travelTimesConnector.updateTravelTimesFromWebservice();
+		if (fetchTravelTimes) {
+			travelTimesConnector.updateTravelTimesFromWebservice();
+		}
     	
 		GHRequest req = new GHRequest(startLat, startLon, endLat, endLon)
 				.setWeighting("fastest")
