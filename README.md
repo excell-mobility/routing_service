@@ -11,6 +11,8 @@ This web service comes as a [SpringBoot](https://projects.spring.io/spring-boot/
 
 As the service uses the Graphhopper routing engine it requires an OSM file to produce the routing graph. Download any OSM pbf file you want e.g. from [GeoFabrik](http://download.geofabrik.de/) and reference the file location in the application.properties (4th parameter) file of this project. You also need to specify a directory where Graphhopper shall create the routing graph. By default it's src/main/resources/graphhopper.
 
+To enable routing on behalf of real time travel times switch the parameter `routing.fetchTravelTimes` to `true`. Now the ExCELL travel time API will be called. Make sure that the RoutingService and the TravelTimesService are operating on the same Graphhopper graph. Currently, there no on-the-fly edge matching is implemented, in case different graphs are used. The user can set up his own TravelTimeService or use the online API of the ExCELL platform, which is the default setting but requires a user login. For the online version a user token is provided by the [ExCELL API Gateway](https://dlr-integration.minglabs.com/api/v1/tokenauth/). If user authentification is not required change the parameter of `url.traveltimeservice.auth` to false.
+
 ### Build it
 
 The project is using [Maven](https://maven.apache.org/) as a build tool and for managing the software dependencies. So in order to build the software you should install Maven on your machine. To create an executable JAR file for your local machine open you favourite shell environment and run:
