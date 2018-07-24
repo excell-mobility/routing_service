@@ -15,6 +15,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import restrouting.component.RoutingService;
+import restrouting.connector.TravelTimesConnector;
 import restrouting.controller.RoutingController;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -36,7 +37,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @ComponentScan(basePackageClasses = {
 	    RoutingController.class,
-	    RoutingService.class
+	    RoutingService.class,
+	    TravelTimesConnector.class
 	})
 
 public class Application {

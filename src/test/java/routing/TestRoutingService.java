@@ -6,8 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import exceptions.InputParameterErrorException;
-import exceptions.RoutingNotFoundException;
+import restrouting.exceptions.InputParameterErrorException;
+import restrouting.exceptions.RoutingNotFoundException;
 import restrouting.component.RoutingService;
 import restrouting.model.RoutingResponse;
 

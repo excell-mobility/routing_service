@@ -15,9 +15,9 @@ import com.graphhopper.GraphHopper;
 import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.util.PointList;
 
-import exceptions.InputParameterErrorException;
-import exceptions.RoutingNotFoundException;
-import rest.TravelTimesConnector;
+import restrouting.connector.TravelTimesConnector;
+import restrouting.exceptions.InputParameterErrorException;
+import restrouting.exceptions.RoutingNotFoundException;
 import restrouting.model.RoutingResponse;
 
 @Component
@@ -25,6 +25,8 @@ public class RoutingService {
 
 	private final Logger log;
 	private GraphHopper hopper;
+	
+	@Autowired
 	private TravelTimesConnector travelTimesConnector;
 	
 	private String osmFile;

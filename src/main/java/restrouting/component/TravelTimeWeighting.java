@@ -9,7 +9,7 @@ import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.PMap;
 import com.graphhopper.util.Parameters.Routing;
 
-import utility.TravelTimesWrapper;
+import restrouting.connector.TravelTimesWrapper;
 
 public class TravelTimeWeighting extends AbstractWeighting {
 	
