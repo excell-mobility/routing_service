@@ -21,7 +21,8 @@ public class TestRoutingService {
 	public void initialize() {
 		routingService = new RoutingService(
 				"src/test/resources/Dresden.osm.pbf",
-				"src/test/resources/graphhopper");
+				"src/test/resources/graphhopper",
+				false);
 	}
 	
 	@Test

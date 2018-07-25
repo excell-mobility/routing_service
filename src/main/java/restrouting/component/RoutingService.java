@@ -29,20 +29,20 @@ public class RoutingService {
 	@Autowired
 	private TravelTimesConnector travelTimesConnector;
 	
-	@Value("${routing.fetchTravelTimes}")
-	private boolean fetchTravelTimes;
-	
 	private String osmFile;
 	private String ghLocation;
+	private boolean fetchTravelTimes;
 	
 	@Autowired
 	public RoutingService(
 			@Value("${routing.osmfile}") String osmFile,
-			@Value("${routing.ghlocation}") String ghLocation) {
+			@Value("${routing.ghlocation}") String ghLocation,
+			@Value("${routing.fetchTravelTimes}") boolean fetchTravelTimes) {
 		
 		log = LoggerFactory.getLogger(this.getClass());
 		this.osmFile = osmFile;
 		this.ghLocation = ghLocation;
+		this.fetchTravelTimes = fetchTravelTimes;
 		
 		hopper = new TravelTimeGraphHopper();
 		hopper.setDataReaderFile(this.getOsmFile());
