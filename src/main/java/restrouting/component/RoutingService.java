@@ -49,6 +49,7 @@ public class RoutingService {
 		hopper.setGraphHopperLocation(this.getGhLocation());
 		hopper.setEncodingManager(new EncodingManager("car"));
 		
+		System.out.println("Fetch travel times?: " + (fetchTravelTimes ? "yes" : "no"));
 		if (fetchTravelTimes) {
 			hopper.setCHEnabled(false);
 			this.travelTimesConnector = new TravelTimesConnector();
