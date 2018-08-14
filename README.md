@@ -11,7 +11,7 @@ This web service comes as a [SpringBoot](https://projects.spring.io/spring-boot/
 
 As the service uses the Graphhopper routing engine it requires an OSM file to produce the routing graph. Download any OSM pbf file you want e.g. from [GeoFabrik](http://download.geofabrik.de/) and reference the file location in the application.properties (4th parameter) file of this project. You also need to specify a directory where Graphhopper shall create the routing graph. By default it's src/main/resources/graphhopper.
 
-To enable routing on behalf of real time travel times switch the parameter `routing.fetchTravelTimes` to `true`. Now the ExCELL travel time API will be called. Make sure that the RoutingService and the TravelTimesService are operating on the same Graphhopper graph. Currently, there no on-the-fly edge matching is implemented, in case different graphs are used. The user can set up his/her own [TravelTimeService](https://github.com/excell-mobility/TravelTimeService) or use the online API of the ExCELL platform, which is the default setting but requires a user login. For the online version a user token is provided by the [ExCELL API Gateway](https://dlr-integration.minglabs.com/api/v1/tokenauth/). If user authentification is not required change the parameter of `url.traveltimeservice.auth` to `false`.
+To enable routing on behalf of real time travel times switch the parameter `routing.fetchTravelTimes` to `true`. Now the ExCELL travel time API will be called. Make sure that the RoutingService and the TravelTimesService are operating on the same Graphhopper graph. Currently, no on-the-fly edge matching is implemented, in case different graphs are used. The user can set up his/her own [TravelTimeService](https://github.com/excell-mobility/TravelTimeService) or use the online API on the [ExCELL Developer Portal](https://www.excell-mobility.de/developer/docs.php?service=traveltime_service). The parameter `url.traveltimeservice` in the `application.properties` defines which endpoint is used. The URL of the online API is the default setting but it requires a user login which can be configured in the `application.properties` as well. By default, the token is provided by the [ExCELL API Gateway](https://dlr-integration.minglabs.com/api/v1/tokenauth/). If user authentification is not required change the parameter of `url.routingservice.auth` to `false`. If user authentification is not required change the parameter of `url.traveltimeservice.auth` to `false`.
 
 ### Build it
 
@@ -55,7 +55,6 @@ An online version of the routing API is available on the ExCELL Developer Portal
 
 ## Contact
 
-* spieper [at] beuth-hochschule.de
 * fkunde [at] beuth-hochschule.de
 
 
