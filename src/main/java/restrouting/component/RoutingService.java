@@ -85,7 +85,8 @@ public class RoutingService {
 		GHResponse rsp = hopper.route(req);;
 		
 		if (rsp.hasErrors()) {
-			throw new RoutingNotFoundException("No routing possible!");
+			for (Throwable error : rsp.getErrors())
+				throw new RoutingNotFoundException("No routing possible!: " + error.getStackTrace());
 		}
 
 		return new RoutingResponse(rsp.getBest().getDistance(),
