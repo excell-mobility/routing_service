@@ -1,22 +1,25 @@
 package restrouting.controller;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.WebRequest;
 
-import restrouting.exceptions.InputParameterErrorException;
-import restrouting.exceptions.RoutingNotFoundException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import restrouting.component.RoutingService;
+import restrouting.exceptions.InputParameterErrorException;
+import restrouting.exceptions.RoutingNotFoundException;
+import restrouting.model.ErrorResponse;
 import restrouting.model.RoutingResponse;
 
 @RestController
@@ -49,14 +52,16 @@ public class RoutingController {
 		return routingService.startRouting(startLat, startLon, endLat, endLon);
     }
 	
-    @ExceptionHandler(value = InputParameterErrorException.class)
-    public BodyBuilder routingParameterError() {
-    	return ResponseEntity.status(HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(InputParameterErrorException.class)
+    public final ResponseEntity<ErrorResponse> handleParameterError(InputParameterErrorException ex, WebRequest request) {
+    	ErrorResponse errorDetails = new ErrorResponse(new Date(), ex.getMessage(), request.getDescription(false));
+    	return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
     
-    @ExceptionHandler(value = RoutingNotFoundException.class)
-    public BodyBuilder routingError() {
-    	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
+    @ExceptionHandler(RoutingNotFoundException.class)
+    public final ResponseEntity<ErrorResponse> handleRoutingNotFoundException(RoutingNotFoundException ex, WebRequest request) {
+    	ErrorResponse errorDetails = new ErrorResponse(new Date(), ex.getMessage(), request.getDescription(false));
+    	return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
 }
