@@ -92,9 +92,6 @@ public class RoutingService {
 		return new RoutingResponse(rsp.getBest().getDistance(),
 				rsp.getBest().getTime(),
 				getPointListDoubles(rsp.getBest().getPoints()));
-//		return new RoutingResponse(rsp.getBest().getDistance(),
-//				rsp.getBest().getTime(),
-//				getPointListDoubles(rsp.getBest().getPoints()));
 	}
 	
 	public String getGhLocation() {

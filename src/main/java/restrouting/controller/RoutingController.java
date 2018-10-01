@@ -54,14 +54,14 @@ public class RoutingController {
 	
     @ExceptionHandler(InputParameterErrorException.class)
     public final ResponseEntity<ErrorResponse> handleParameterError(InputParameterErrorException ex, WebRequest request) {
-    	ErrorResponse errorDetails = new ErrorResponse(new Date(), ex.getMessage(), request.getDescription(false));
-    	return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    	ErrorResponse errorResponse = new ErrorResponse(new Date(), ex.getMessage(), request.getDescription(false));
+    	return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
     
     @ExceptionHandler(RoutingNotFoundException.class)
     public final ResponseEntity<ErrorResponse> handleRoutingNotFoundException(RoutingNotFoundException ex, WebRequest request) {
-    	ErrorResponse errorDetails = new ErrorResponse(new Date(), ex.getMessage(), request.getDescription(false));
-    	return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+    	ErrorResponse errorResponse = new ErrorResponse(new Date(), ex.getMessage(), request.getDescription(false));
+    	return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
 }
